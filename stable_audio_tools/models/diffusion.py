@@ -180,7 +180,10 @@ class ConditionedDiffusionModelWrapper(nn.Module):
         if len(self.input_concat_ids) > 0:
             # Concatenate all input concat conditioning inputs over the channel dimension
             # Assumes that the input concat conditioning inputs are of shape (batch, channels, seq)
-            concat_tensors = [conditioning_tensors[key][0] for key in self.input_concat_ids if conditioning_tensors[key] is not None]
+            concat_tensors = [
+                conditioning_tensors[key][0] 
+                for key in self.input_concat_ids if conditioning_tensors[key][0] is not None
+            ]
             if len(concat_tensors) > 0:
                 input_concat_cond = torch.cat(concat_tensors, dim=1)
             else:
