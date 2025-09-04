@@ -9,6 +9,9 @@ from .utils import prepare_audio
 from .sampling import sample, sample_k, sample_rf
 from ..data.utils import PadCrop
 
+if tp.TYPE_CHECKING:
+    from ..models.diffusion import ConditionedDiffusionModelWrapper
+
 def generate_diffusion_uncond(
         model,
         steps: int = 250,
@@ -89,7 +92,7 @@ def generate_diffusion_uncond(
 
 
 def generate_diffusion_cond(
-        model,
+        model: ConditionedDiffusionModelWrapper,
         steps: int = 250,
         cfg_scale=6,
         conditioning: dict = None,
@@ -151,6 +154,8 @@ def generate_diffusion_cond(
     if conditioning_tensors is None:
         conditioning_tensors = model.conditioner(conditioning, device)
     conditioning_inputs = model.get_conditioning_inputs(conditioning_tensors)
+    conditioning_tensors['inpaint_mask'] = [None]
+    conditioning_tensors['inpaint_masked_input'] = [None]
 
     if negative_conditioning is not None or negative_conditioning_tensors is not None:
         
@@ -220,7 +225,7 @@ def generate_diffusion_cond(
     return sampled
 
 def generate_diffusion_cond_inpaint(
-        model,
+        model: ConditionedDiffusionModelWrapper,
         steps: int = 250,
         cfg_scale=6,
         conditioning: dict = None,
