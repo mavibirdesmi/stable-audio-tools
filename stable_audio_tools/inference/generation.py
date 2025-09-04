@@ -8,9 +8,7 @@ from torch.nn.functional import interpolate
 from .utils import prepare_audio
 from .sampling import sample, sample_k, sample_rf
 from ..data.utils import PadCrop
-
-if tp.TYPE_CHECKING:
-    from ..models.diffusion import ConditionedDiffusionModelWrapper
+from ..models.diffusion import ConditionedDiffusionModelWrapper
 
 def generate_diffusion_uncond(
         model,
