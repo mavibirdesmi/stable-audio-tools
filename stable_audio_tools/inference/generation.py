@@ -8,7 +8,6 @@ from torch.nn.functional import interpolate
 from .utils import prepare_audio
 from .sampling import sample, sample_k, sample_rf
 from ..data.utils import PadCrop
-from ..models.diffusion import ConditionedDiffusionModelWrapper
 
 def generate_diffusion_uncond(
         model,
@@ -90,7 +89,7 @@ def generate_diffusion_uncond(
 
 
 def generate_diffusion_cond(
-        model: ConditionedDiffusionModelWrapper,
+        model,
         steps: int = 250,
         cfg_scale=6,
         conditioning: dict = None,
@@ -223,7 +222,7 @@ def generate_diffusion_cond(
     return sampled
 
 def generate_diffusion_cond_inpaint(
-        model: ConditionedDiffusionModelWrapper,
+        model,
         steps: int = 250,
         cfg_scale=6,
         conditioning: dict = None,
