@@ -152,7 +152,8 @@ def generate_diffusion_cond(
         conditioning_tensors = model.conditioner(conditioning, device)
     
     for k, v in conditioning_tensors.items():
-        print(k, v.shape if v is not None else None)
+        if isinstance(v, tuple) or isinstance(v, list):
+            print(k, [x.shape if x is not None else None for x in v])
 
     # NOTE: assign empty inpainting masks to avoid errors
     conditioning_tensors['inpaint_mask'] = [torch.zeros((batch_size, 1, sample_size), device=device)]
