@@ -156,7 +156,7 @@ def generate_diffusion_cond(
             print(k, [x.shape if x is not None else None for x in v])
 
     # NOTE: assign empty inpainting masks to avoid errors
-    conditioning_tensors['inpaint_mask'] = [torch.zeros((batch_size, 1, sample_size), device=device)]
+    conditioning_tensors['inpaint_mask'] = [torch.ones((batch_size, 1, sample_size), device=device)]
     conditioning_tensors['inpaint_masked_input'] = [torch.zeros((batch_size, model.io_channels, sample_size), device=device)]
 
     conditioning_inputs = model.get_conditioning_inputs(conditioning_tensors)
